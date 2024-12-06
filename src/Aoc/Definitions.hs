@@ -25,7 +25,7 @@ import Text.Printf (printf)
 type Year = Natural
 
 year :: Year
-year = 2023
+year = 2024
 
 type Day = Natural
 

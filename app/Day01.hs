@@ -4,12 +4,30 @@ module Main
 where
 
 import Aoc
-import Data.Attoparsec.Text (Parser)
+import Aoc.Occurrence (countOccurrences)
+import Aoc.Parse (skipHorizontalSpace)
+import Data.Attoparsec.Text (Parser, decimal, endOfLine, sepBy1')
+import Data.Foldable (Foldable (..))
+import Data.List (sort)
+import Data.Map ((!?))
+import Data.Maybe (fromMaybe)
 
-pInput :: Parser Text
-pInput = undefined
+pLine :: Parser (Int, Int)
+pLine = do
+  l <- decimal
+  _ <- skipHorizontalSpace
+  r <- decimal
+  pure (l, r)
+
+pInput :: Parser ([Int], [Int])
+pInput = unzip <$> pLine `sepBy1'` endOfLine
 
 main :: IO ()
 main = do
-  d <- parseChallengeT (Sample 1 1) pInput
-  print d
+  (ls, rs) <- parseChallengeT (Full 1) pInput
+  -- Part 1.
+  print $ sum $ zipWith (\x y -> abs (x - y)) (sort ls) (sort rs)
+  -- Part 2.
+  let os = countOccurrences rs
+      addO acc x = acc + x * fromMaybe 0 (os !? x)
+  print $ foldl' addO 0 ls
