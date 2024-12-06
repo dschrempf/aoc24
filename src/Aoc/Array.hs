@@ -22,7 +22,7 @@ module Aoc.Array
     filterA,
     insertRows,
     insertCols,
-    parseMatrix,
+    pMatrix,
     nRows,
     nCols,
     rotateLeft,
@@ -31,7 +31,7 @@ module Aoc.Array
 where
 
 import Control.Applicative (Alternative (..))
-import Data.Attoparsec.Text (Parser, char, choice, endOfLine, sepBy1')
+import Data.Attoparsec.Text (Parser, endOfLine, isEndOfLine, satisfy, sepBy1')
 import Data.Massiv.Array
   ( Array,
     Comp (..),
@@ -181,10 +181,10 @@ insertCols colsToInsert at array =
   where
     (left, right) = A.splitAt' 1 at array
 
-parseMatrix :: (Manifest r a) => [(Char, a)] -> Parser (Array r Ix2 a)
-parseMatrix mp = A.fromLists' Seq <$> some el `sepBy1'` endOfLine
+pMatrix :: (Manifest r a) => (Char -> a) -> Parser (Array r Ix2 a)
+pMatrix f = A.fromLists' Seq <$> some el `sepBy1'` endOfLine
   where
-    el = choice [category <$ char character | (character, category) <- mp]
+    el = f <$> satisfy (not . isEndOfLine)
 
 nRows :: (Size r) => Array r Ix2 e -> Int
 nRows = fst . A.unconsDim . A.unSz . A.size
