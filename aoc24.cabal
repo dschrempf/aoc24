@@ -1,0 +1,338 @@
+cabal-version:      3.8
+name:               aoc
+version:            0.1.0.0
+synopsis:           Advent of code, 2024
+description:
+  Please see the README at <https://github.com/dschrempf/aoc24#readme>
+
+category:           Math, Statistics
+homepage:           https://github.com/dschrempf/aoc24#readme
+bug-reports:        https://github.com/dschrempf/aoc24/issues
+author:             Dominik Schrempf
+maintainer:         dominik.schrempf@gmail.com
+copyright:          2024 Dominik Schrempf
+license:            GPL-3.0-or-later
+license-file:       License.txt
+build-type:         Simple
+extra-doc-files:
+  Changelog.md
+  Readme.md
+
+extra-source-files:
+data-files:
+
+source-repository head
+  location: https://github.com/dschrempf/aoc24
+  type:     git
+
+common common
+  default-extensions:
+  build-depends:
+    , attoparsec
+    , base                  >=4.7 && <5
+    , bytestring
+    , containers
+    , deepseq
+    , massiv
+    , microlens
+    , text
+    , unordered-containers
+    , vector
+
+common lib
+  default-language: Haskell2010
+  ghc-options:      -Wall -Wredundant-constraints
+
+common test
+  default-language: Haskell2010
+  ghc-options:      -Wall -Wredundant-constraints
+
+common bench
+  default-language: Haskell2010
+  ghc-options:      -Wall -Wredundant-constraints
+
+common exec
+  default-language: Haskell2010
+  build-depends:    aoc
+  ghc-options:
+    -Wall -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+
+library
+  import:          common, lib
+  exposed-modules:
+    Aoc
+    Aoc.Array
+    Aoc.Bounded
+    Aoc.Char
+    Aoc.Definitions
+    Aoc.Direction
+    Aoc.Factor
+    Aoc.Function
+    Aoc.List
+    Aoc.Mod
+    Aoc.Monad
+    Aoc.Occurrence
+    Aoc.Parse
+    Aoc.Prime
+    Aoc.Set
+    Aoc.String
+    Aoc.Tuple
+
+  hs-source-dirs:  src
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+    , containers
+    , deepseq
+    , massiv
+
+executable fetch
+  import:          common, exec
+  main-is:         Fetch.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+    , directory
+    , dotenv
+    , exceptions
+    , extra
+    , html-conduit
+    , http-conduit
+    , xml-conduit
+
+executable scratch
+  import:          common, exec
+  main-is:         Scratch.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day01
+  import:          common, exec
+  main-is:         Day01.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day02
+  import:          common, exec
+  main-is:         Day02.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day03
+  import:          common, exec
+  main-is:         Day03.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day04
+  import:          common, exec
+  main-is:         Day04.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day05
+  import:          common, exec
+  main-is:         Day05.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day06
+  import:          common, exec
+  main-is:         Day06.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day07
+  import:          common, exec
+  main-is:         Day07.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day08
+  import:          common, exec
+  main-is:         Day08.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day09
+  import:          common, exec
+  main-is:         Day09.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day10
+  import:          common, exec
+  main-is:         Day10.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day11
+  import:          common, exec
+  main-is:         Day11.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day12
+  import:          common, exec
+  main-is:         Day12.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:     -O2
+  build-depends:   memoize
+
+executable day13
+  import:          common, exec
+  main-is:         Day13.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day14
+  import:          common, exec
+  main-is:         Day14.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day15
+  import:          common, exec
+  main-is:         Day15.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day16
+  import:          common, exec
+  main-is:         Day16.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day17
+  import:          common, exec
+  main-is:         Day17.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day18
+  import:          common, exec
+  main-is:         Day18.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day19
+  import:          common, exec
+  main-is:         Day19.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day20
+  import:          common, exec
+  main-is:         Day20.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day21
+  import:          common, exec
+  main-is:         Day21.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day22
+  import:          common, exec
+  main-is:         Day22.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:   hashable
+
+executable day23
+  import:          common, exec
+  main-is:         Day23.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day24
+  import:          common, exec
+  main-is:         Day24.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+
+executable day25
+  import:          common, exec
+  main-is:         Day25.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
