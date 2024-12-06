@@ -66,6 +66,7 @@ library
     Aoc.Char
     Aoc.Definitions
     Aoc.Direction
+    Aoc.DirectionDiag
     Aoc.Factor
     Aoc.Function
     Aoc.List
