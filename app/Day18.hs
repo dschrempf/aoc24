@@ -11,5 +11,5 @@ pInput = undefined
 
 main :: IO ()
 main = do
-  d <- parseChallengeT (Sample __DAY__ 1) pInput
+  d <- parseChallengeT (Sample 18 1) pInput
   print d

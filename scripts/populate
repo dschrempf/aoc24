@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 for d in $(seq -w 25); do
-    fn="../Day${d}.hs"
+    fn="../app/Day${d}.hs"
     cp template.hs "${fn}"
-    sed -i "s/__DAY__/$d/g" "${fn}"
+
+    n=${d##0}
+    sed -i "s/__DAY__/$n/g" "${fn}"
 done
