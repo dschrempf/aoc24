@@ -11,8 +11,8 @@
 -- Creation date: Sun Dec 10 20:37:01 2023.
 module Aoc.Direction
   ( Direction (..),
-    ix2ToDirections,
-    directionToIx2,
+    ixToDirections,
+    directionToIx,
     moveNStepsInDirection,
     isVertical,
     isHorizontal,
@@ -25,40 +25,40 @@ import Aoc.Bounded (predWrap, succWrap)
 import Data.Massiv.Array (Ix2 (..))
 import Data.Maybe (catMaybes)
 
-data Direction = North | East | South | West
+data Direction = N | E | S | W
   deriving (Show, Eq, Ord, Bounded, Enum)
 
-signToDirectionNS :: Int -> Maybe Direction
-signToDirectionNS x = case compare x 0 of
-  GT -> Just South
-  LT -> Just North
+_signToDirectionNS :: Int -> Maybe Direction
+_signToDirectionNS x = case compare x 0 of
+  GT -> Just S
+  LT -> Just N
   EQ -> Nothing
 
-signToDirectionEW :: Int -> Maybe Direction
-signToDirectionEW x = case compare x 0 of
-  LT -> Just West
-  GT -> Just East
+_signToDirectionEW :: Int -> Maybe Direction
+_signToDirectionEW x = case compare x 0 of
+  LT -> Just W
+  GT -> Just E
   EQ -> Nothing
 
 -- | Extract direction components.
-ix2ToDirections :: Ix2 -> [Direction]
-ix2ToDirections (x :. y) = catMaybes [signToDirectionNS x, signToDirectionEW y]
+ixToDirections :: Ix2 -> [Direction]
+ixToDirections (x :. y) = catMaybes [_signToDirectionNS x, _signToDirectionEW y]
 
 -- | Get shortest delta index from direction.
-directionToIx2 :: Direction -> Ix2
-directionToIx2 North = -1 :. 0
-directionToIx2 East = 0 :. 1
-directionToIx2 South = 1 :. 0
-directionToIx2 West = 0 :. -1
+directionToIx :: Direction -> Ix2
+directionToIx N = -1 :. 0
+directionToIx E = 0 :. 1
+directionToIx S = 1 :. 0
+directionToIx W = 0 :. -1
 
 moveNStepsInDirection :: Int -> Ix2 -> Direction -> Ix2
 moveNStepsInDirection nSteps pos dir = pos + (nSteps * m :. nSteps * n)
   where
-    (m :. n) = directionToIx2 dir
+    (m :. n) = directionToIx dir
 
 isVertical :: Direction -> Bool
-isVertical North = True
-isVertical South = True
+isVertical N = True
+isVertical S = True
 isVertical _ = False
 
 isHorizontal :: Direction -> Bool
