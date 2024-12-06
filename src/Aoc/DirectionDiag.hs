@@ -1,6 +1,6 @@
 -- |
--- Module      :  Aoc.Direction
--- Description :  Directions on a 2D grid
+-- Module      :  Aoc.DirectionDiag
+-- Description :  Directions with diagonals on a 2D grid
 -- Copyright   :  2023 Dominik Schrempf
 -- License     :  GPL-3.0-or-later
 --

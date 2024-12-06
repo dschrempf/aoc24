@@ -31,9 +31,9 @@ type Day = Natural
 
 data Challenge
   = -- | Sample.
-    Sample Day Natural
+    Sample !Day !Natural
   | -- | Full.
-    Full Day
+    Full !Day
   deriving (Show)
 
 getDay :: Challenge -> Day
