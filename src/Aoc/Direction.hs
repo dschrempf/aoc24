@@ -22,7 +22,7 @@ module Aoc.Direction
 where
 
 import Aoc.Bounded (predWrap, succWrap)
-import Data.Massiv.Array (Ix2 (..))
+import Data.Massiv.Array (Index (pureIndex), Ix2 (..))
 import Data.Maybe (catMaybes)
 
 data Direction = N | E | S | W
@@ -52,9 +52,7 @@ directionToIx S = 1 :. 0
 directionToIx W = 0 :. -1
 
 moveNStepsInDirection :: Int -> Ix2 -> Direction -> Ix2
-moveNStepsInDirection nSteps pos dir = pos + (nSteps * m :. nSteps * n)
-  where
-    (m :. n) = directionToIx dir
+moveNStepsInDirection n pos dir = pos + pureIndex n * directionToIx dir
 
 isVertical :: Direction -> Bool
 isVertical N = True
