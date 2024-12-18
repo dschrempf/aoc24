@@ -67,6 +67,7 @@ library
     Aoc.Definitions
     Aoc.Direction
     Aoc.DirectionDiag
+    Aoc.Enum
     Aoc.Factor
     Aoc.Function
     Aoc.List
