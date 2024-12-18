@@ -6,7 +6,7 @@ import Aoc.Definitions (Challenge (..), getDay, getInputFile, year)
 import Configuration.Dotenv (defaultConfig, loadFile)
 import Control.Monad.Catch (MonadThrow)
 import qualified Data.ByteString as B
-import Data.ByteString.Char8 (pack)
+import Data.ByteString.Char8 (pack, putStrLn)
 import Data.List.Extra ((!?))
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
@@ -25,6 +25,7 @@ import Text.XML.Cursor
     (&/),
     (&//),
   )
+import Prelude hiding (putStrLn)
 
 baseUrl :: String
 baseUrl = "https://adventofcode.com/" <> show year <> "/day/"
@@ -57,7 +58,10 @@ writeInput challenge = B.writeFile (getInputFile challenge)
 handleResponse :: Challenge -> B.ByteString -> IO ()
 handleResponse challenge@(Sample _ n) response =
   case extractSamples response !? fromIntegral (pred n) of
-    Just sample -> writeInput challenge sample
+    Just sample -> do
+      putStrLn "Fetched sample:"
+      putStrLn sample
+      writeInput challenge sample
     Nothing -> error $ "handleResponse: did not find sample for challenge " <> show challenge
 handleResponse challenge@(Full _) response = writeInput challenge response
 
