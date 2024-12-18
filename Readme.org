@@ -14,3 +14,4 @@ cabal run fetch 1 1  # Fetch sample one of day one.
 - [[https://byorgey.wordpress.com/2020/05/16/competitive-programming-in-haskell-summer-series/][Competitive programming in Haskell]]
 
 * Notes on individual days
+- Day 5: Awesome puzzle :-).
