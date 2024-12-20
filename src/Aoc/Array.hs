@@ -27,6 +27,7 @@ module Aoc.Array
     nCols,
     rotateLeft,
     rotateRight,
+    border,
   )
 where
 
@@ -36,7 +37,7 @@ import Data.Massiv.Array
   ( Array,
     Comp (..),
     Dimension (..),
-    Index (isSafeIndex),
+    Index (..),
     Ix1,
     Ix2 (..),
     Ix3,
@@ -48,6 +49,8 @@ import Data.Massiv.Array
     Vector,
   )
 import qualified Data.Massiv.Array as A
+import Data.Set (Set)
+import qualified Data.Set as S
 import Prelude hiding (break)
 
 stencil :: Sz Ix2 -> Ix2 -> [Ix2]
@@ -199,3 +202,15 @@ rotateLeft = A.compute . A.reverse Dim2 . A.transpose
 -- | Rotate clockwise by 90 degrees.
 rotateRight :: (Manifest r e) => Array r Ix2 e -> Array r Ix2 e
 rotateRight = A.compute . A.transpose . A.reverse Dim2
+
+-- >>> S.size $ border (Sz (4 :. 5))
+-- 14
+
+-- | Get border of matrix.
+border :: Sz Ix2 -> Set Ix2
+border (Sz (m :. n)) =
+  S.fromList $
+    [0 :. j | j <- [0 .. n - 1]]
+      ++ [m - 1 :. j | j <- [0 .. n - 1]]
+      ++ [i :. 0 | i <- [0 .. m - 1]]
+      ++ [i :. n - 1 | i <- [0 .. m - 1]]
