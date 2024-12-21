@@ -5,6 +5,7 @@ where
 
 import Aoc
 import Aoc.Array (areNeighborsNoDiagonal, filterA, neighborsNoDiagonalInf, pMatrix)
+import Aoc.Direction (Direction (..), moveNStepsInDirection)
 import Aoc.Function (fixPoint)
 import Data.Attoparsec.Text (Parser)
 import Data.Foldable (Foldable (..))
@@ -46,17 +47,36 @@ getPerimeter xs = foldl' addFence 0 xs
           nsNotInArea = filter (`S.notMember` xs) ns
        in tot + length nsNotInArea
 
--- getNSides :: Set Ix2 -> Int
--- getNSides xs = undefined
---   where
---     getBorder = S.filter isBorder
---     isBorder ix = any (`S.notMember` xs) $ neighborsNoDiagonalInf ix
+getNSides :: Set Ix2 -> Int
+getNSides xs =
+  sum $
+    map
+      (\(d1, d2) -> S.size $ S.filter (isOuterCorner d1 d2) xs)
+      [(N, E), (S, E), (S, W), (N, W)]
+      ++ map
+        (\(d1, d2) -> S.size $ S.filter (isInnerCorner d1 d2) xs)
+        [(N, E), (S, E), (S, W), (N, W)]
+  where
+    isOuterCorner d1 d2 ix =
+      let go = moveNStepsInDirection 1 ix
+          isOut jx = jx `S.notMember` xs
+       in isOut (go d1) && isOut (go d2)
+    isInnerCorner d1 d2 ix =
+      let go = moveNStepsInDirection 1 ix
+          isIn jx = jx `S.member` xs
+          isOut jx = jx `S.notMember` xs
+          diag = moveNStepsInDirection 1 (moveNStepsInDirection 1 ix d2) d1
+       in isIn (go d1) && isIn (go d2) && isOut diag
 
 main :: IO ()
 main = do
   d <- parseChallengeT (Full 12) pInput
+  -- 1
   let chars = S.toList $ getChars d
       areas = concatMap (getAreas d) chars
       as = map getArea areas
       ps = map getPerimeter areas
   print $ sum $ zipWith (*) as ps
+  -- 2
+  let ss = map getNSides areas
+  print $ sum $ zipWith (*) as ss
