@@ -5,8 +5,12 @@ where
 
 import Aoc
 import Aoc.Function (nTimesStrict)
+import Aoc.Occurrence (OccurrenceMap, addNElems, countOccurrences)
 import Aoc.Parse (skipHorizontalSpace)
 import Data.Attoparsec.Text (Parser, decimal, sepBy1')
+import Data.Foldable (Foldable (..))
+import Data.Map.Strict (foldlWithKey)
+import qualified Data.Map.Strict as M
 
 type Stone = Int
 
@@ -28,7 +32,16 @@ blink x
 pInput :: Parser Stones
 pInput = decimal `sepBy1'` skipHorizontalSpace
 
+blink2 :: OccurrenceMap Stone -> OccurrenceMap Stone
+blink2 = foldlWithKey addStone M.empty
+  where
+    addStone occMap stone count =
+      let stones = blink stone
+       in foldl' (addNElems count) occMap stones
+
 main :: IO ()
 main = do
   d <- parseChallengeT (Full 11) pInput
   print $ length $ nTimesStrict 25 (concatMap blink) d
+  let occ = countOccurrences d
+  print $ sum $ nTimesStrict 75 blink2 occ

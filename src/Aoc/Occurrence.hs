@@ -12,17 +12,18 @@
 module Aoc.Occurrence
   ( OccurrenceMap,
     countOccurrences,
+    addNElems,
   )
 where
 
-import Data.Foldable (Foldable (foldl'))
+import Data.Foldable (Foldable (..))
 import qualified Data.Map.Strict as M
 
 type OccurrenceMap a = M.Map a Int
 
-addElem :: (Ord a) => OccurrenceMap a -> a -> OccurrenceMap a
-addElem m k = M.insertWith (const (+ 1)) k 1 m
+addNElems :: (Ord a) => Int -> OccurrenceMap a -> a -> OccurrenceMap a
+addNElems n m k = M.insertWith (const (+ n)) k n m
 
 -- | Count the number of occurrences of things in a container.
 countOccurrences :: (Foldable f, Ord a) => f a -> OccurrenceMap a
-countOccurrences = foldl' addElem M.empty
+countOccurrences = foldl' (addNElems 1) M.empty
