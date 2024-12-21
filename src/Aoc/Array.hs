@@ -15,6 +15,7 @@
 module Aoc.Array
   ( neighbors,
     neighborsNoDiagonal,
+    areNeighborsNoDiagonal,
     neighborsNoDiagonalInf,
     neighbors3,
     neighborsNoDiagonal3,
@@ -95,6 +96,12 @@ neighborsNoDiagonal s p =
   ]
   where
     (i :. j) = p
+
+-- | Check if two indices are neighboring indices (no diagnoal).
+areNeighborsNoDiagonal :: Ix2 -> Ix2 -> Bool
+areNeighborsNoDiagonal (i :. j) (m :. n) =
+  (abs (m - i) == 1 && j == n)
+    || (abs (n - j) == 1 && i == m)
 
 -- | Like 'neighborsNoDiagnoal' but grid has no bounds.
 neighborsNoDiagonalInf :: Ix2 -> [Ix2]
