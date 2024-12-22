@@ -58,16 +58,16 @@ pConfiguration = do
 pInput :: Parser [Configuration]
 pInput = pConfiguration `sepBy1'` skipSpace
 
-safeDiv :: Integer -> Integer -> Maybe Float
+safeDiv :: Integer -> Integer -> Maybe Double
 safeDiv a b
   | b == 0 = Nothing
   | otherwise = Just $ fromIntegral a / fromIntegral b
 
-getNPushesA :: Configuration -> Maybe Float
+getNPushesA :: Configuration -> Maybe Double
 getNPushesA (Conf (xa, ya) (xb, yb) (x, y)) =
   safeDiv (x * yb - xb * y) (xa * yb - xb * ya)
 
-getNPushesB :: Configuration -> Maybe Float
+getNPushesB :: Configuration -> Maybe Double
 getNPushesB (Conf (xa, ya) (xb, yb) (x, y)) =
   safeDiv (x * ya - xa * y) (xb * ya - xa * yb)
 
@@ -80,7 +80,7 @@ data Solution
   | Win {_nPushesA :: !Integer, _nPushesB :: !Integer}
   deriving (Show)
 
-isInteger :: Float -> Maybe Integer
+isInteger :: Double -> Maybe Integer
 isInteger x
   | abs (x - fromIntegral i) < 1e-12 = Just i
   | otherwise = Nothing
@@ -96,38 +96,12 @@ getNTokens c = case mNPushes of
         then Win nasI nbsI
         else NPushesTooHigh
     _ -> NoInteger
-  -- Nothing -> getNTokensParallel c
   Nothing -> error "parallel, part 1"
   where
     mNPushes = (,) <$> getNPushesA c <*> getNPushesB c
 
 cost :: Integer -> Integer -> Integer
 cost nPushesA nPushesB = 3 * nPushesA + nPushesB
-
--- getNTokensParallel :: Configuration -> Solution
--- getNTokensParallel (Configuration (xa :. ya) (xb :. yb) (x :. y))
---   | not prizeIsOnLine = ParallelNotReachable
---   | nas' > 100 && nbs' > 100 = ParallelNPushesTooHigh
---   | otherwise = case sortOn
---       (uncurry cost)
---       [ (a, b)
---         | a <- [0 .. nas],
---           b <- [0 .. nbs],
---           a * xa + b * xb == x && a * ya + b * yb == y
---       ] of
---       ((a, b) : _) -> Win a b
---       _ -> ParallelNoInteger
---   where
---     x' = fromIntegral x :: Double
---     y' = fromIntegral y :: Double
---     xa' = fromIntegral xa :: Double
---     xb' = fromIntegral xb :: Double
---     ya' = fromIntegral ya :: Double
---     prizeIsOnLine = (x' / xa') == (y' / ya')
---     nas' = x' / xa'
---     nas = ceiling nas' :: Integer
---     nbs' = x' / xb'
---     nbs = ceiling nbs' :: Integer
 
 eval :: Solution -> Integer
 eval (Win a b) = cost a b
@@ -138,39 +112,14 @@ getNTokens2 c = case mNPushes of
   Just (nas, nbs) -> case (isInteger nas, isInteger nbs) of
     (Just nasI, Just nbsI) -> Win nasI nbsI
     _ -> NoInteger
-  -- Nothing -> getNTokensParallel2 c
   Nothing -> error "parallel, part 2"
   where
     mNPushes = (,) <$> getNPushesA c <*> getNPushesB c
 
--- getNTokensParallel2 :: Configuration -> Solution
--- getNTokensParallel2 (Configuration (xa :. ya) (xb :. yb) (x :. y))
---   | not prizeIsOnLine = ParallelNotReachable
---   | otherwise = case sortOn
---       (uncurry cost)
---       [ (a, b)
---         | a <- [0 .. nas],
---           b <- [0 .. nbs],
---           a * xa + b * xb == x && a * ya + b * yb == y
---       ] of
---       ((a, b) : _) -> Win a b
---       _ -> ParallelNoInteger
---   where
---     x' = fromIntegral x :: Double
---     y' = fromIntegral y :: Double
---     xa' = fromIntegral xa :: Double
---     xb' = fromIntegral xb :: Double
---     ya' = fromIntegral ya :: Double
---     prizeIsOnLine = (x' / xa') == (y' / ya')
---     nas' = x' / xa'
---     nas = ceiling nas' :: Int
---     nbs' = x' / xb'
---     nbs = ceiling nbs' :: Int
-
 main :: IO ()
 main = do
-  d <- parseChallengeT (Sample 13 1) pInput
-  -- d <- parseChallengeT (Full 13) pInput
+  -- d <- parseChallengeT (Sample 13 1) pInput
+  d <- parseChallengeT (Full 13) pInput
   -- 1
   let ss = map getNTokens d
   print ss
