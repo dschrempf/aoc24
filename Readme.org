@@ -1,4 +1,4 @@
-* Advent of code 2024
+* Advent of Code 2024
 At some point, this repository will probably contain the solution to the
 [[https://adventofcode.com/][Advent of Code 2024]].
 
