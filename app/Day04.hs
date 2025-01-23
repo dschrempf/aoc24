@@ -24,7 +24,7 @@ isXmas xs ix d = all (uncurry isL) $ zip [0 .. 4] "XMAS"
 
 nXmas :: Field -> Ix2 -> Char -> Int
 nXmas xs ix el
-  | el == 'X' = length $ filter id $ map (isXmas xs ix) enumerate
+  | el == 'X' = length $ filter (isXmas xs ix) enumerate
   | otherwise = 0
 
 masStencil :: Stencil Ix2 Char Bool
