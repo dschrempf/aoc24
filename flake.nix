@@ -15,7 +15,7 @@
       theseHpkgNames = [
         "aoc24"
       ];
-      thisGhcVersion = "ghc96";
+      thisGhcVersion = "ghc98";
       hOverlay = selfn: supern: {
         haskell = supern.haskell // {
           packageOverrides =
